@@ -11,7 +11,7 @@ const MessageForm = ({ handleSubmit, text, setText, setFile }) => {
         onChange={(e) => setFile(e.target.files[0])}
         type="file"
         id="file"
-        accept="image/*, video/*"
+        accept="image/*, video/*, audio/*"
         style={{ display: "none" }}
       />
       <div>
@@ -20,6 +20,7 @@ const MessageForm = ({ handleSubmit, text, setText, setFile }) => {
           placeholder="Enter message"
           value={text}
           onChange={(e) => setText(e.target.value)}
+          style={{backgroundColor: '#f7f8fc'}}
         />
       </div>
       <div>

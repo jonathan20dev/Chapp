@@ -16,7 +16,7 @@ const Message = ({ msg, user1 }) => {
       <p className={msg.from === user1 ? "me" : "friend"}>
         {String(msg.media.tipo).split("/")[0] === "image" ? <img style={{maxHeight: 500}} src={msg.media.url} alt={msg.text} /> : null}
         {String(msg.media.tipo).split("/")[0] === "video" ? <video style={{maxHeight: 500}} src={msg.media.url} alt={msg.text} controls/> : null}
-        {msg.media ? <img src={msg.media} alt={msg.text} /> : null}
+        {String(msg.media.tipo).split("/")[0] === "audio" ? <audio src={msg.media.url} alt={msg.text} controls/> : null}
         {msg.text}
         <br />
         <small>
