@@ -22,7 +22,7 @@ function Home() {
   const [users, setUsers] = useState([]);
   const [chat, setChat] = useState("");
   const [text, setText] = useState("");
-  const [img, setImg] = useState("");
+  const [file, setFile] = useState("");
   const [msgs, setMsgs] = useState([]);
 
   const user1 = auth.currentUser.uid;
@@ -71,22 +71,25 @@ function Home() {
     const id = user1 > user2 ? `${user1 + user2}` : `${user2 + user1}`;
 
     let url;
-    if (img) {
-      const imgRef = ref(
+    if (file) {
+      const fileRef = ref(
         storage,
-        `images/${new Date().getTime()} - ${img.name}`
+        `${String(file.type).split("/")[0]}/${new Date().getTime()} - ${file.name}`
       );
-      const snap = await uploadBytes(imgRef, img);
+      const snap = await uploadBytes(fileRef, file);
       const dlUrl = await getDownloadURL(ref(storage, snap.ref.fullPath));
       url = dlUrl;
     }
-
+    
     await addDoc(collection(db, "messages", id, "chat"), {
       text,
       from: user1,
       to: user2,
       createdAt: Timestamp.fromDate(new Date()),
-      media: url || "",
+      media: url ? {
+        url: url,
+        tipo: file.type
+      } : "",
     });
 
     await setDoc(doc(db, "lastMsg", id), {
@@ -94,12 +97,15 @@ function Home() {
       from: user1,
       to: user2,
       createdAt: Timestamp.fromDate(new Date()),
-      media: url || "",
+      media: url ? {
+        url: url,
+        tipo: file.type
+      } : "",
       unread: true,
     });
 
     setText("");
-    setImg("");
+    setFile("");
   };
 
   return (
@@ -132,7 +138,7 @@ function Home() {
               handleSubmit={handleSubmit}
               text={text}
               setText={setText}
-              setImg={setImg}
+              setFile={setFile}
             />
           </>
         ) : (

@@ -1,17 +1,17 @@
 import React from "react";
 import {Attachment} from "./svg/Attachment";
 
-const MessageForm = ({ handleSubmit, text, setText, setImg }) => {
+const MessageForm = ({ handleSubmit, text, setText, setFile }) => {
   return (
     <form className="message_form" onSubmit={handleSubmit}>
-      <label htmlFor="img">
+      <label htmlFor="file">
         <Attachment />
       </label>
       <input
-        onChange={(e) => setImg(e.target.files[0])}
+        onChange={(e) => setFile(e.target.files[0])}
         type="file"
-        id="img"
-        accept="image/*"
+        id="file"
+        accept="image/*, video/*"
         style={{ display: "none" }}
       />
       <div>

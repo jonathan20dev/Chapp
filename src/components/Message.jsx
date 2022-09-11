@@ -3,6 +3,7 @@ import Moment from "react-moment";
 
 const Message = ({ msg, user1 }) => {
   const scrollRef = useRef();
+  console.log(msg)
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -13,6 +14,8 @@ const Message = ({ msg, user1 }) => {
       ref={scrollRef}
     >
       <p className={msg.from === user1 ? "me" : "friend"}>
+        {String(msg.media.tipo).split("/")[0] === "image" ? <img style={{maxHeight: 500}} src={msg.media.url} alt={msg.text} /> : null}
+        {String(msg.media.tipo).split("/")[0] === "video" ? <video style={{maxHeight: 500}} src={msg.media.url} alt={msg.text} controls/> : null}
         {msg.media ? <img src={msg.media} alt={msg.text} /> : null}
         {msg.text}
         <br />
