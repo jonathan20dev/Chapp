@@ -64,8 +64,10 @@ function Home() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
+    try{
+      e.preventDefault();
+    } catch {}
+    
     const user2 = chat.uid;
 
     const id = user1 > user2 ? `${user1 + user2}` : `${user2 + user1}`;

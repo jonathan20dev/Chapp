@@ -1,14 +1,20 @@
 import React from "react";
-import {Attachment} from "./svg/Attachment";
+import { Attachment } from "./svg/Attachment";
+import { AudioRecord } from "./AudioRecord"
+import { Send } from "./svg/Send";
+import { useState } from "react";
 
-const MessageForm = ({ handleSubmit, text, setText, setFile }) => {
+const MessageForm = ({ handleSubmit, text, setText, setFile, file }) => {
+
   return (
     <form className="message_form" onSubmit={handleSubmit}>
       <label htmlFor="file">
         <Attachment />
       </label>
       <input
-        onChange={(e) => setFile(e.target.files[0])}
+        onChange={(e) => {
+          setFile(e.target.files[0])
+        }}
         type="file"
         id="file"
         accept="image/*, video/*, audio/*"
@@ -23,9 +29,10 @@ const MessageForm = ({ handleSubmit, text, setText, setFile }) => {
           style={{backgroundColor: '#f7f8fc'}}
         />
       </div>
-      <div>
-        <button className="btn">Send</button>
-      </div>
+      <button style={{outline: 'none', backgroundColor: '#242526', border: 0}}>
+        <Send colorActive={!file ? '#4d94ff' : 'green'}/>
+      </button>
+      <AudioRecord setFile={setFile}/>
     </form>
   );
 };
