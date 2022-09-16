@@ -2,7 +2,6 @@ import React from "react";
 import { Attachment } from "./svg/Attachment";
 import { AudioRecord } from "./AudioRecord"
 import { Send } from "./svg/Send";
-import { useState } from "react";
 
 const MessageForm = ({ handleSubmit, text, setText, setFile, file }) => {
 

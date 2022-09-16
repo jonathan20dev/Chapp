@@ -7,20 +7,23 @@ import {Home} from "./pages/Home"
 import { Register } from "./pages/Register";
 import {Login} from "./pages/Login"
 import {Profile} from "./pages/Profile"
+import {AppContextProvider} from './context/AppContext'
 
 
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-          <Navbar/>
-            <Routes>
-            <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
-            <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            </Routes>
-      </BrowserRouter>
+      <AppContextProvider>
+        <BrowserRouter>
+            <Navbar/>
+              <Routes>
+              <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+              <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              </Routes>
+        </BrowserRouter>
+      </AppContextProvider>
     </AuthProvider>
   );
 }

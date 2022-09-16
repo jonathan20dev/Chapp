@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { db, auth, storage } from "../firebase";
 import {
   collection,
@@ -17,6 +17,8 @@ import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import {User} from "../components/User";
 import {MessageForm} from "../components/MessageForm";
 import {Message} from "../components/Message";
+import { appContext } from "../context/AppContext";
+import { v4 as uuid } from "uuid";
 
 function Home() {
   const [users, setUsers] = useState([]);
@@ -24,6 +26,7 @@ function Home() {
   const [text, setText] = useState("");
   const [file, setFile] = useState("");
   const [msgs, setMsgs] = useState([]);
+  const { updateMsg } = useContext(appContext);
 
   const user1 = auth.currentUser.uid;
 
@@ -82,8 +85,9 @@ function Home() {
       const dlUrl = await getDownloadURL(ref(storage, snap.ref.fullPath));
       url = dlUrl;
     }
-    
-    await addDoc(collection(db, "messages", id, "chat"), {
+
+    /* await addDoc(collection(db, "messages", id, "chat"), {
+      collection: id,
       text,
       from: user1,
       to: user2,
@@ -92,9 +96,27 @@ function Home() {
         url: url,
         tipo: file.type
       } : "",
-    });
+    }); */
+
+    const collectionRef = collection(db, "messages", id, "chat")
+    const msgId = uuid()
+
+    await setDoc(doc(db, collectionRef.path, msgId), {
+      id: msgId,
+      collectionId: id,
+      path: collectionRef.path,
+      text,
+      from: user1,
+      to: user2,
+      createdAt: Timestamp.fromDate(new Date()),
+      media: url ? {
+        url: url,
+        tipo: file.type
+      } : "",
+    }); 
 
     await setDoc(doc(db, "lastMsg", id), {
+      id: msgId,
       text,
       from: user1,
       to: user2,
@@ -132,7 +154,7 @@ function Home() {
             <div className="messages">
               {msgs.length
                 ? msgs.map((msg, i) => (
-                    <Message key={i} msg={msg} user1={user1} />
+                    <Message key={i} msg={msg} user1={user1}/>
                   ))
                 : null}
             </div>
