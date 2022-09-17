@@ -19,14 +19,16 @@ import {MessageForm} from "../components/MessageForm";
 import {Message} from "../components/Message";
 import { appContext } from "../context/AppContext";
 import { v4 as uuid } from "uuid";
+import { BurgerMenu } from "../components/svg/BurgerMenu";
+import { Button } from "@mui/material";
 
 function Home() {
   const [users, setUsers] = useState([]);
   const [chat, setChat] = useState("");
   const [text, setText] = useState("");
   const [file, setFile] = useState("");
-  const [msgs, setMsgs] = useState([]);
-  const { updateMsg } = useContext(appContext);
+  const [options, setOptions] = useState(false);
+  const {msgs, setMsgs, textoBuscado, setTextoBuscado, mensajesBuscados} = useContext(appContext)
 
   const user1 = auth.currentUser.uid;
 
@@ -86,18 +88,6 @@ function Home() {
       url = dlUrl;
     }
 
-    /* await addDoc(collection(db, "messages", id, "chat"), {
-      collection: id,
-      text,
-      from: user1,
-      to: user2,
-      createdAt: Timestamp.fromDate(new Date()),
-      media: url ? {
-        url: url,
-        tipo: file.type
-      } : "",
-    }); */
-
     const collectionRef = collection(db, "messages", id, "chat")
     const msgId = uuid()
 
@@ -111,7 +101,8 @@ function Home() {
       createdAt: Timestamp.fromDate(new Date()),
       media: url ? {
         url: url,
-        tipo: file.type
+        tipo: file.type,
+        nombre: file.name
       } : "",
     }); 
 
@@ -123,7 +114,8 @@ function Home() {
       createdAt: Timestamp.fromDate(new Date()),
       media: url ? {
         url: url,
-        tipo: file.type
+        tipo: file.type,
+        nombre: file.name
       } : "",
       unread: true,
     });
@@ -149,11 +141,33 @@ function Home() {
         {chat ? (
           <>
             <div className="messages_user">
-              <h3>{chat.name}</h3>
+              <div style={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
+                <h3>{chat.name}</h3>
+                <div style={{display: 'flex', alignItems: 'center'}} onClick={() => {
+                  setOptions(!options)
+                  setTextoBuscado('')
+                  }}>
+                  <BurgerMenu/>
+                </div>
+              </div>
+              {
+                options && (
+                  <div style={{width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <div style={{padding: '0px 5px 0px 0px'}}> 
+                      <input type='text' className="inputMenu" placeholder='Buscar msg/archivo' value={textoBuscado} onChange={({target}) => {
+                          setTextoBuscado(target.value)
+                        }} />
+                    </div>
+                    <Button variant="outlined" color="error">
+                      Bloquear
+                    </Button>
+                  </div>
+                )
+              }
             </div>
             <div className="messages">
-              {msgs.length
-                ? msgs.map((msg, i) => (
+              {mensajesBuscados.length
+                ? mensajesBuscados.map((msg, i) => (
                     <Message key={i} msg={msg} user1={user1}/>
                   ))
                 : null}

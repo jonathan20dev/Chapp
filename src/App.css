@@ -118,7 +118,16 @@ section .form {
 .text_container h3 {
   text-align: left;
 }
-
+.inputMenu {
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 3px;
+  height: 40px;
+  width: 190px;
+  color: #CCC;
+  outline: none;
+  padding: 6px;
+}
 .home_container {
   position: relative;
   display: grid;
@@ -171,6 +180,9 @@ section .form {
   width: 100%;
 }
 .messages_user {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   padding: 8px;
   text-align: left;
   margin-left: 15px;
