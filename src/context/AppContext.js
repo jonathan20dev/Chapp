@@ -1,13 +1,28 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { doc, deleteDoc, setDoc, getDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import { auth, db } from "../firebase";
 
 const appContext = createContext();
 
 const AppContextProvider = ({ children }) => {
+  const user1 = auth.currentUser.uid
+    //Usuarios bloqueados 
+    const [blockedUsers, setBlockedUsers] = useState(user1);
+  
+  const prueba = async() => {
+    const userRef = doc(db, "users", user1);
+    const user = await getDoc(userRef);
+    const userData = user.data()
+    setBlockedUsers(userData.blockedUsers)
+  }
+
+  useEffect(() => {
+    prueba()
+  }, [])
+
+
   //variables para buscarMensaje 
   const [textoBuscado, setTextoBuscado] = useState('');
-  const registroMsgs = []
 
   //Manejo de selección para editar o borrar mensaje
   const [selectedMsg, setSelectedMsg] = useState("");
@@ -26,6 +41,18 @@ const AppContextProvider = ({ children }) => {
       [modal]: !openModal[modal],
     });
   };
+
+  //Actualizar usuarios bloqueados
+  const updateBlockedUsers = async (currentUserId, lista) => {
+    const userRef = doc(db, "users", currentUserId);
+    const user = await getDoc(userRef);
+    const userData = user.data()
+    const obj = {
+      ...userData,
+      ['blockedUsers']: lista
+    }
+    return setDoc(userRef, obj);
+  }
 
   //Funciones firebase
   const updateMsg = async (path, docId, obj, collectionId) => {
@@ -90,7 +117,10 @@ const AppContextProvider = ({ children }) => {
         setMsgs,
         textoBuscado,
         setTextoBuscado,
-        mensajesBuscados
+        mensajesBuscados,
+        blockedUsers,
+        setBlockedUsers,
+        updateBlockedUsers
       }}
     >
       {children}

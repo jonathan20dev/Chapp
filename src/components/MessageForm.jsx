@@ -6,17 +6,7 @@ import { Send } from "./svg/Send";
 const MessageForm = ({ handleSubmit, text, setText, setFile, file }) => {
   return (
     <div
-      style={{
-        width: "100%",
-        height: "50px",
-        position: "absolute",
-        bottom: "0",
-        zIndex: 2,
-        display: "flex",
-        justifyContent: "center",
-        backgroundColor: "#242526",
-        borderTop: '1px solid #333'
-      }}
+      className='absoluteBackground'
     >
       <form className="message_form" onSubmit={handleSubmit}>
         <label htmlFor="file">

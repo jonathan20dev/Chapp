@@ -22,12 +22,12 @@ import { BurgerMenu } from "../components/svg/BurgerMenu";
 import { Button } from "@mui/material";
 
 function Home() {
+  const {setMsgs, textoBuscado, setTextoBuscado, mensajesBuscados, setBlockedUsers, blockedUsers, updateBlockedUsers} = useContext(appContext)
   const [users, setUsers] = useState([]);
   const [chat, setChat] = useState("");
   const [text, setText] = useState("");
   const [file, setFile] = useState("");
   const [options, setOptions] = useState(false);
-  const {msgs, setMsgs, textoBuscado, setTextoBuscado, mensajesBuscados} = useContext(appContext)
 
   const user1 = auth.currentUser.uid;
 
@@ -123,6 +123,17 @@ function Home() {
     setFile("");
   };
 
+  const handleBloqueo = () => {
+    let lista = []
+    if (blockedUsers.some((id) => id === chat.uid)) {
+      lista = blockedUsers.filter((uid) => uid !== chat.uid)
+    } else {
+      lista = [...blockedUsers, chat.uid]
+    }
+    setBlockedUsers(lista)
+    updateBlockedUsers(user1, lista) 
+  }
+
   return (
     <div className="home_container">
       <div className="users_container">
@@ -157,8 +168,8 @@ function Home() {
                           setTextoBuscado(target.value)
                         }} />
                     </div>
-                    <Button variant="outlined" color="error">
-                      Bloquear
+                    <Button variant="outlined" size='small' color="error" onClick={handleBloqueo}>
+                      { blockedUsers.some((id) => id ===chat.uid) ? 'Desbloquear' : 'Bloquear' }
                     </Button>
                   </div>
                 )
@@ -171,12 +182,14 @@ function Home() {
                   ))
                 : null}
             </div>
-            <MessageForm
-              handleSubmit={handleSubmit}
-              text={text}
-              setText={setText}
-              setFile={setFile}
-            />
+            { 
+            blockedUsers.some((id) => id === chat.uid) ? <div className='absoluteBackground' style={{color: 'red'}}>Desbloquea el contacto para enviar mensajes</div> 
+            :(chat.blockedUsers.some((id) => id === user1) ? <div className='absoluteBackground' style={{color: 'red'}}>No puedes enviar mensajes a este chat</div> :<MessageForm
+            handleSubmit={handleSubmit}
+            text={text}
+            setText={setText}
+            setFile={setFile}
+          />)}
           </>
         ) : (
           <h3 className="no_conv">Select a user to start conversation</h3>

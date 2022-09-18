@@ -11,11 +11,12 @@ const Register = () => {
         password: "",
         error: null,
         loading: false,
+        blockedUsers : []
     });
 
     const navegate = useNavigate();
 
-    const { name, email, password, error, loading } = data;
+    const { name, email, password, error, loading, blockedUsers } = data;
 
     const handleChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
@@ -39,6 +40,7 @@ const Register = () => {
         email,
         createdAt: Timestamp.fromDate(new Date()),
         isOnline: true,
+        blockedUsers
         });
         setData({
         name: "",
@@ -46,6 +48,7 @@ const Register = () => {
         password: "",
         error: null,
         loading: false,
+        blockedUsers
         });
         navegate("/");
     } catch (err) {
