@@ -1,26 +1,14 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 import { doc, deleteDoc, setDoc, getDoc } from "firebase/firestore";
-import { auth, db } from "../firebase";
+import { db } from "../firebase";
 
 const appContext = createContext();
 
 const AppContextProvider = ({ children }) => {
-  const user1 = auth.currentUser.uid
-    //Usuarios bloqueados 
-    const [blockedUsers, setBlockedUsers] = useState(user1);
+
+  //Usuarios bloqueados 
+  const [blockedUsers, setBlockedUsers] = useState([]);
   
-  const prueba = async() => {
-    const userRef = doc(db, "users", user1);
-    const user = await getDoc(userRef);
-    const userData = user.data()
-    setBlockedUsers(userData.blockedUsers)
-  }
-
-  useEffect(() => {
-    prueba()
-  }, [])
-
-
   //variables para buscarMensaje 
   const [textoBuscado, setTextoBuscado] = useState('');
 
@@ -28,7 +16,7 @@ const AppContextProvider = ({ children }) => {
   const [selectedMsg, setSelectedMsg] = useState("");
   const [selected, setSelected] = useState(false);
   const [msgs, setMsgs] = useState([]);
-
+  
   //Manejo de modals
   const [openModal, setOpenModal] = useState({
     modalDeleteMsg: false,
@@ -50,8 +38,8 @@ const AppContextProvider = ({ children }) => {
     const obj = {
       ...userData,
       ['blockedUsers']: lista
-    }
-    return setDoc(userRef, obj);
+    } 
+    await setDoc(userRef, obj);
   }
 
   //Funciones firebase

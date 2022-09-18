@@ -31,6 +31,19 @@ function Home() {
 
   const user1 = auth.currentUser.uid;
 
+  const setBU = async () => {
+    /* const userRef = doc(db, "users", auth.currentUser.uid);
+    const user1 = await getDoc(userRef);
+    const userData = user1.data() */
+
+    onSnapshot(doc(db, "users", auth.currentUser.uid), (docSnap) => {
+      const userInfo = docSnap.data()
+      setBlockedUsers(userInfo.blockedUsers) ;
+    });
+
+    //setBlockedUsers(userData.blockedUsers) 
+  }
+
   useEffect(() => {
     const usersRef = collection(db, "users");
     const q = query(usersRef, where("uid", "not-in", [user1]));
@@ -41,6 +54,7 @@ function Home() {
       });
       setUsers(users);
     });
+    setBU()
     return () => unsub();
   }, []);
 
