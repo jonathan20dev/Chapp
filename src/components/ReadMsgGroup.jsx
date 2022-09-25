@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import Moment from "react-moment";
 
 
-const ReadMsgGroup = ({ msg, users, actualUser }) => {
+const ReadMsgGroup = ({ msg, users, actualUser, descifrar }) => {
   const scrollRef = useRef();
   const remitentes = [...users, actualUser]
   
@@ -30,7 +30,7 @@ const ReadMsgGroup = ({ msg, users, actualUser }) => {
         {String(msg.media.tipo).split("/")[0] === "image" ? <img style={{maxHeight: 500}} src={msg.media.url} alt={msg.text} /> : null}
         {String(msg.media.tipo).split("/")[0] === "video" ? <video style={{maxHeight: 500}} src={msg.media.url} alt={msg.text} controls/> : null}
         {String(msg.media.tipo).split("/")[0] === "audio" ? <audio src={msg.media.url} alt={msg.text} controls/> : null}
-        {msg.text}
+        {descifrar(msg.text, msg.id)}
         <br />
         <small>
           <Moment fromNow>{msg.createdAt.toDate()}</Moment>

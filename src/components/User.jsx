@@ -3,7 +3,7 @@ import Img from "../profile.png";
 import { onSnapshot, doc } from "firebase/firestore";
 import { db } from "../firebase";
 
-const User = ({ user1, user, selectUser, chat }) => {
+const User = ({ user1, user, selectUser, chat, descifrar }) => {
   const user2 = user?.uid;
   const [data, setData] = useState("");
 
@@ -36,7 +36,7 @@ const User = ({ user1, user, selectUser, chat }) => {
         {data && (
           <p className="truncate">
             <strong>{data.from === user1 ? "Me:" : null}</strong>
-            {data.text}
+            {descifrar(data.text, data.id)}
           </p>
         )}
       </div>

@@ -1,6 +1,7 @@
 import React, { createContext, useState } from "react";
 import { doc, deleteDoc, setDoc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import CryptoJS from "crypto-js";
 
 const appContext = createContext();
 
@@ -33,6 +34,22 @@ const AppContextProvider = ({ children }) => {
       [modal]: !openModal[modal],
     });
   };
+
+  //Cifrar mensajes
+  const cifrar = (mensaje, id) => {
+    const textoCifrado = CryptoJS.AES.encrypt(mensaje, id).toString()
+    return textoCifrado
+  }
+//Descrifrar mensajes
+  const descifrar = (mensaje, id) => {
+    const bytes = CryptoJS.AES.decrypt(mensaje, id)
+    const textoDescifrado = bytes.toString(CryptoJS.enc.Utf8)
+    return textoDescifrado
+  }
+
+
+  
+
 
   //Actualizar usuarios bloqueados
   const updateBlockedUsers = async (currentUserId, lista) => {
@@ -139,6 +156,8 @@ let mensajesBuscadosG = [];
         setMsgG,
         Me, 
         setMe,
+        cifrar,
+        descifrar
       }}
     >
       {children}

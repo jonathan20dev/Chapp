@@ -7,7 +7,7 @@ import { appContext } from "../context/AppContext";
 import { DeleteMsg } from './DeleteMsg.jsx'
 import { EditMsg } from './EditMsg.jsx'
 
-const Message = ({ msg, user1 }) => {
+const Message = ({ msg, user1, descifrar }) => {
   const scrollRef = useRef();
   const {openModal, onClickButton, selectedMsg, setSelectedMsg, selected, setSelected} = useContext(appContext)
 
@@ -55,7 +55,7 @@ const Message = ({ msg, user1 }) => {
         {String(msg.media.tipo).split("/")[0] === "image" ? <img style={{maxHeight: 500}} src={msg.media.url} alt={msg.text} /> : null}
         {String(msg.media.tipo).split("/")[0] === "video" ? <video style={{maxHeight: 500}} src={msg.media.url} alt={msg.text} controls/> : null}
         {String(msg.media.tipo).split("/")[0] === "audio" ? <audio src={msg.media.url} alt={msg.text} controls/> : null}
-        {msg.text}
+        {descifrar(msg.text, msg.id)}
         <br />
         <small>
           <Moment fromNow>{msg.createdAt.toDate()}</Moment>

@@ -25,7 +25,7 @@ import {Group} from "../components/Group"
 
 
 function Home() {
-  const {setMsgs, textoBuscado, setTextoBuscado, mensajesBuscados, setMsgG, textoBuscadoG, setTextoBuscadoG, mensajesBuscadosG, setBlockedUsers, blockedUsers, updateBlockedUsers, Me, setMe} = useContext(appContext)
+  const {setMsgs, textoBuscado, setTextoBuscado, mensajesBuscados, setMsgG, textoBuscadoG, setTextoBuscadoG, mensajesBuscadosG, setBlockedUsers, blockedUsers, updateBlockedUsers, Me, setMe, cifrar, descifrar} = useContext(appContext)
   const [users, setUsers] = useState([]);
   const [chat, setChat] = useState("");
   const [chatG, setChatG] = useState("");
@@ -36,6 +36,8 @@ function Home() {
   const [optionsG, setOptionsG] = useState(false);
 
   const user1 = auth.currentUser.uid;
+
+
 
   const setBU = async () => {
     /* const userRef = doc(db, "users", auth.currentUser.uid);
@@ -101,6 +103,7 @@ function Home() {
   onSnapshot(q, (querySnapshot) => {
     let msgs = [];
     querySnapshot.forEach((doc) => {
+      doc.data().text = descifrar(doc.data().text, doc.data().id)
       msgs.push(doc.data());
     });
     setMsgs(msgs);
@@ -124,6 +127,7 @@ function Home() {
   onSnapshot(q, (querySnapshot) => {
     let msgs = [];
     querySnapshot.forEach((doc) => {
+      doc.data().text = descifrar(doc.data().text, doc.data().id)
       msgs.push(doc.data());
     });
     setMsgG(msgs);
@@ -180,12 +184,13 @@ const handleSubmit = async (e) => {
 
   const collectionRef = collection(db, "messages", id, "chat")
   const msgId = uuid()
+  const texto = cifrar(text, msgId)
 
   await setDoc(doc(db, collectionRef.path, msgId), {
     id: msgId,
     collectionId: id,
     path: collectionRef.path,
-    text,
+    text: texto,
     from: user1,
     to: user2,
     createdAt: Timestamp.fromDate(new Date()),
@@ -198,7 +203,7 @@ const handleSubmit = async (e) => {
 
   await setDoc(doc(db, "lastMsg", id), {
     id: msgId,
-    text,
+    text: texto,
     from: user1,
     to: user2,
     createdAt: Timestamp.fromDate(new Date()),
@@ -251,12 +256,13 @@ const handleSubmit = async (e) => {
     await setDoc(doc(db, "users", Me.uid), Me);
     const collectionRef = collection(db, "messagesG", id, "chat")
     const msgId = uuid()
+    const texto = cifrar(text, msgId)
 
     await setDoc(doc(db, collectionRef.path, msgId), {
       id: msgId,
       collectionId: uuid(),
       path: collectionRef.path,
-      text,
+      text: texto,
       from: user1,
       to: addressedTo,
       createdAt: Timestamp.fromDate(new Date()),
@@ -269,7 +275,7 @@ const handleSubmit = async (e) => {
 
     await setDoc(doc(db, "lastMsgG", id), {
       id: msgId,
-      text,
+      text: texto,
       from: user1,
       to: addressedTo,
       createdAt: Timestamp.fromDate(new Date()),
@@ -315,6 +321,7 @@ const handleSubmit = async (e) => {
           grupo={grupo}
           selectGroup={selectGroup}
           chat={chatG}
+          descifrar={descifrar}
           />
         ))}
 
@@ -325,6 +332,7 @@ const handleSubmit = async (e) => {
             selectUser={selectUser}
             user1={user1}
             chat={chat}
+            descifrar={descifrar}
           />
         ))}
       </div>
@@ -368,7 +376,7 @@ const handleSubmit = async (e) => {
                       <div className="messages">
                         {mensajesBuscados.length
                           ? mensajesBuscados.map((msg, i) => (
-                              <Message key={i} msg={msg} user1={user1}/>
+                              <Message key={i} msg={msg} user1={user1} descifrar={descifrar}/>
                             ))
                           : null}
                       </div>
@@ -415,7 +423,7 @@ const handleSubmit = async (e) => {
                     <div className="messages">
                       {mensajesBuscadosG.length
                         ? mensajesBuscadosG.map((msg, i) => (
-                            <ReadMsgGroup key={i} msg={msg} users={users} actualUser = {auth.currentUser}/>
+                            <ReadMsgGroup key={i} msg={msg} users={users} actualUser = {auth.currentUser} descifrar={descifrar}/>
                           ))
                         : null}
                     </div>
