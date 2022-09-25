@@ -40,7 +40,13 @@ const Register = () => {
         email,
         createdAt: Timestamp.fromDate(new Date()),
         isOnline: true,
-        blockedUsers
+        blockedUsers,
+        cantMsg: 0,
+        cantImg: 0,
+        cantVid: 0,
+        cantAud: 0,
+        words: 0,
+        ArrayFriends: []
         });
         setData({
         name: "",

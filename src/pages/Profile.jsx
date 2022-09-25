@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {Camera} from "../components/svg/Camera";
 import Img from "../profile.png";
 import { storage, db, auth } from "../firebase";
@@ -11,8 +11,10 @@ import {
 import { getDoc, doc, updateDoc } from "firebase/firestore";
 import {Delete} from "../components/svg/Delete";
 import { useNavigate } from "react-router-dom";
+import { appContext } from "../context/AppContext";
 
 const Profile = () => {
+  const {Me, setMe} = useContext(appContext)
   const [img, setImg] = useState("");
   const [user, setUser] = useState();
   const navigate = useNavigate("");
@@ -68,6 +70,7 @@ const Profile = () => {
     }
   };
   return user ? (
+    <>
     <section>
       <div className="profile_container">
         <div className="img_container">
@@ -95,7 +98,37 @@ const Profile = () => {
           <small>Joined on: {user.createdAt.toDate().toDateString()}</small>
         </div>
       </div>
+      <br/>
     </section>
+    <section style={{marginTop: "10px"}}>
+      <div className="profile_container">
+        <div className="img_container">
+        </div>
+        <div className="text_container">
+          <h3>{"My Stats"}</h3>
+          
+          {
+          (Me.ArrayFriends.length > 0) &&
+          <div>
+            <h3>Contactos más frecuentes</h3>
+            {Me.ArrayFriends.map((el,index) => 
+              <p key={index}>{el.name}</p>
+            )}
+          </div>
+          }
+          <h3>{"Estadisticas general:"}</h3>
+          <p>{"Cantidad de mensajes enviados: "+Me.cantMsg}</p>
+          <p>{"Cantidad de imagenes enviados: "+Me.cantImg}</p>
+          <p>{"Cantidad de videos enviados: "+Me.cantVid}</p>
+          <p>{"Cantidad de audios enviados: "+Me.cantAud}</p>
+          <p>{"Cantidad de palabras enviados: "+Me.words}</p>
+
+          <hr />
+        </div>
+      </div>
+      <br/>
+    </section>
+    </>
   ) : null;
 };
 

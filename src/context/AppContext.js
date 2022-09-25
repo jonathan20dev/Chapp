@@ -18,6 +18,7 @@ const AppContextProvider = ({ children }) => {
   const [selected, setSelected] = useState(false);
   const [msgs, setMsgs] = useState([]);
   const [msgG, setMsgG] = useState([]);
+  const [Me, setMe] = useState();
   
   //Manejo de modals
   const [openModal, setOpenModal] = useState({
@@ -135,7 +136,9 @@ let mensajesBuscadosG = [];
         setBlockedUsers,
         updateBlockedUsers,
         msgG,
-        setMsgG
+        setMsgG,
+        Me, 
+        setMe,
       }}
     >
       {children}
