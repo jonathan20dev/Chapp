@@ -183,7 +183,7 @@ function Home() {
                         }} />
                     </div>
                     <Button variant="outlined" size='small' color="error" onClick={handleBloqueo}>
-                      { blockedUsers.some((id) => id ===chat.uid) ? 'Desbloquear' : 'Bloquear' }
+                      {blockedUsers !== undefined && blockedUsers.some((id) => id ===chat.uid) ? 'Desbloquear' : 'Bloquear' }
                     </Button>
                   </div>
                 )
@@ -197,7 +197,7 @@ function Home() {
                 : null}
             </div>
             { 
-            blockedUsers.some((id) => id === chat.uid) ? <div className='absoluteBackground' style={{color: 'red'}}>Desbloquea el contacto para enviar mensajes</div> 
+            blockedUsers !== undefined && blockedUsers.some((id) => id === chat.uid) ? <div className='absoluteBackground' style={{color: 'red'}}>Desbloquea el contacto para enviar mensajes</div> 
             :(chat.blockedUsers.some((id) => id === user1) ? <div className='absoluteBackground' style={{color: 'red'}}>No puedes enviar mensajes a este chat</div> :<MessageForm
             handleSubmit={handleSubmit}
             text={text}

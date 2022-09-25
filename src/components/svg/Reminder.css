@@ -1,0 +1,17 @@
+.contenedor {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+  }
+  
+  .center {
+    width: 300px;
+    text-align: center;
+  }
+  
+  .pickers{
+    width: 300px;
+    text-align: center;
+  }

@@ -1,16 +1,25 @@
 import React, { createContext, useState } from "react";
 import { doc, deleteDoc, setDoc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import axios from "axios";
 
 const appContext = createContext();
 
 const AppContextProvider = ({ children }) => {
+
+  //Dialog
+  const [openDialog, setOpenDialog] = useState({showGIF: false, showReminder: false, showReminderUpdate: false , showWeather: false, showReminderTable: false})
+  //Alerts
+  const [openAlert, setOpenAlert] = useState({showAlertCreate: false, showAlertUpdate: false})
 
   //Usuarios bloqueados 
   const [blockedUsers, setBlockedUsers] = useState([]);
   
   //variables para buscarMensaje 
   const [textoBuscado, setTextoBuscado] = useState('');
+
+  //Reminder
+  const [reminder, setReminder] = useState([])
 
   //Manejo de selección para editar o borrar mensaje
   const [selectedMsg, setSelectedMsg] = useState("");
@@ -22,6 +31,58 @@ const AppContextProvider = ({ children }) => {
     modalDeleteMsg: false,
     modalEditMsg: false,
   });
+
+  const [data, setData] = useState({})
+  const [weather, setWeather] = useState([]) 
+  const [location, setLocation] = useState("")
+
+  const handleOpenWeather = () =>{
+    findMyLocation()
+    axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${location},lat&APPID=3bd740d64f5ad6b4786618ba189dbfb8`).then((response) => {
+        setData(response.data);
+        setWeather(response.data.weather[0])
+      });
+    (openDialog.showWeather) ? setOpenDialog({...openDialog, showWeather: false}) :  setOpenDialog({...openDialog, showWeather: true})
+  }
+
+  const findMyLocation = () => {
+    const status = document.querySelector('.status')
+  
+    const success = (position) => {
+      const latitude = position.coords.latitude
+      const longitude = position.coords.longitude
+  
+      const geoApiUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+  
+      fetch(geoApiUrl)
+      .then(res => res.json())
+      .then(data => {
+        let locationRepalce = data.locality.replace(/Costa Rica/g, '')
+        locationRepalce = locationRepalce.replace(/\(/g, '');
+        locationRepalce = locationRepalce.replace(/\)/g, '');
+        
+        setLocation(locationRepalce)
+      })
+    }
+    const error = () => {
+      status.textContent = "Error your location"
+    }
+    navigator.geolocation.getCurrentPosition(success, error)
+  }
+  
+    function addZero(i) {
+      if (i < 10) {i = "0" + i}
+      return i;
+    }
+  
+    const TimeLocation = () => {
+        const d = new Date();
+        let h = addZero(d.getHours());
+        let m = addZero(d.getMinutes());
+        let s = addZero(d.getSeconds());
+        let time = h + ":" + m ;
+        return time
+      }
 
   const onClickButton = (modal) => {
     setOpenModal({
@@ -97,8 +158,18 @@ const AppContextProvider = ({ children }) => {
         onClickButton,
         updateMsg,
         deleteMsg,
+        openAlert, 
+        handleOpenWeather,
+        setOpenAlert,
         selectedMsg,
+        weather, 
+        setWeather,
+        data, 
+        setData,
         setSelectedMsg,
+        reminder, 
+        TimeLocation,
+        setReminder,
         selected,
         setSelected,
         msgs,
@@ -106,6 +177,8 @@ const AppContextProvider = ({ children }) => {
         textoBuscado,
         setTextoBuscado,
         mensajesBuscados,
+        openDialog, 
+        setOpenDialog,
         blockedUsers,
         setBlockedUsers,
         updateBlockedUsers
