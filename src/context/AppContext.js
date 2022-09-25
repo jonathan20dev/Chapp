@@ -17,6 +17,7 @@ const AppContextProvider = ({ children }) => {
   
   //variables para buscarMensaje 
   const [textoBuscado, setTextoBuscado] = useState('');
+  const [textoBuscadoG, setTextoBuscadoG] = useState('');
 
   //Reminder
   const [reminder, setReminder] = useState([])
@@ -25,16 +26,20 @@ const AppContextProvider = ({ children }) => {
   const [selectedMsg, setSelectedMsg] = useState("");
   const [selected, setSelected] = useState(false);
   const [msgs, setMsgs] = useState([]);
+  const [msgG, setMsgG] = useState([]);
+  const [Me, setMe] = useState();
   
   //Manejo de modals
   const [openModal, setOpenModal] = useState({
     modalDeleteMsg: false,
     modalEditMsg: false,
+    modalCreateGroup: false,
   });
 
   const [data, setData] = useState({})
   const [weather, setWeather] = useState([]) 
   const [location, setLocation] = useState("")
+  const [selectGIF, setSelectGIF] = useState("")
 
   const handleOpenWeather = () =>{
     findMyLocation()
@@ -151,11 +156,34 @@ const AppContextProvider = ({ children }) => {
     })
   }
 
+//Buscar mensaje en grupo
+let mensajesBuscadosG = [];
+  
+  if (textoBuscadoG === '') {
+    mensajesBuscadosG = [...msgG]
+  } else {
+    mensajesBuscadosG = msgG.filter(m => {
+      const msgtextG = m.text.toLowerCase();
+      let nombreArchivo = ''
+      if (m.media) {
+        nombreArchivo = m.media.nombre.toLowerCase();
+      }
+      const textoG = textoBuscadoG.toLowerCase();
+      return msgtextG.includes(textoG) || nombreArchivo.includes(textoG);
+    })
+  }
+
+
+
   return (
     <appContext.Provider
       value={{
         openModal,
         onClickButton,
+        openDialog,
+        openAlert,
+        setOpenAlert,
+        setOpenDialog,
         updateMsg,
         deleteMsg,
         openAlert, 
@@ -163,6 +191,8 @@ const AppContextProvider = ({ children }) => {
         setOpenAlert,
         selectedMsg,
         weather, 
+        selectGIF, 
+        setSelectGIF,
         setWeather,
         data, 
         setData,
@@ -175,13 +205,18 @@ const AppContextProvider = ({ children }) => {
         msgs,
         setMsgs,
         textoBuscado,
+        textoBuscadoG,
         setTextoBuscado,
+        setTextoBuscadoG,
         mensajesBuscados,
-        openDialog, 
-        setOpenDialog,
+        mensajesBuscadosG,
         blockedUsers,
         setBlockedUsers,
-        updateBlockedUsers
+        updateBlockedUsers,
+        msgG,
+        setMsgG,
+        Me, 
+        setMe,
       }}
     >
       {children}

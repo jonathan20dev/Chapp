@@ -55,6 +55,7 @@ const Message = ({ msg, user1 }) => {
         {String(msg.media.tipo).split("/")[0] === "image" ? <img style={{maxHeight: 500}} src={msg.media.url} alt={msg.text} /> : null}
         {String(msg.media.tipo).split("/")[0] === "video" ? <video style={{maxHeight: 500}} src={msg.media.url} alt={msg.text} controls/> : null}
         {String(msg.media.tipo).split("/")[0] === "audio" ? <audio src={msg.media.url} alt={msg.text} controls/> : null}
+        {String(msg.media.tipo).split("/")[0] === "gif" ? <img src={msg.media.url} alt={msg.text} controls/> : null}
         {msg.text}
         <br />
         <small>

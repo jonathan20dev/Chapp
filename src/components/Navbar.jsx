@@ -55,7 +55,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 const Navbar = () => {
 
-  const {openDialog, TimeLocation, setOpenDialog,handleOpenWeather, openAlert, setOpenAlert, reminder, setReminder, weather, setWeather, location, setLocation, data, setData} = useContext(appContext)
+  const {openDialog, selectGIF, setSelectGIF, TimeLocation, setOpenDialog,handleOpenWeather, openAlert, setOpenAlert, reminder, setReminder, weather, setWeather, location, setLocation, data, setData} = useContext(appContext)
   const [inputMeme, setInputMeme] = useState("");
   const [GIF, setGIF] = useState([]);
 
@@ -157,6 +157,10 @@ const Navbar = () => {
     await signOut(auth);
     navigate("/login");
   };
+
+  const handleSubmitGIF = (url)=> {
+    setSelectGIF(url)
+  }
 
   return (
     <>
@@ -469,6 +473,7 @@ const Navbar = () => {
             {GIF.map(gif => (
               <ImageListItem key={gif.img}>
                 <img
+                  onClick={()=> handleSubmitGIF(gif.images.original.url)}
                   src={gif.images.original.url}
                   alt={gif.id}
                   loading="lazy"
