@@ -18,6 +18,7 @@ const Profile = () => {
   const [img, setImg] = useState("");
   const [user, setUser] = useState();
   const navigate = useNavigate("");
+  Me.ArrayFriends.sort((a,b)=> b.cant - a.cant)
 
   useEffect(() => {
     getDoc(doc(db, "users", auth.currentUser.uid)).then((docSnap) => {
@@ -112,7 +113,10 @@ const Profile = () => {
           <div>
             <h3>Contactos más frecuentes</h3>
             {Me.ArrayFriends.map((el,index) => 
-              <p key={index}>{el.name}</p>
+              <React.Fragment key={index}>
+              <p >{el.name}</p>
+              <li>{"Mensajes enviados: "+el.cant}</li>
+              </React.Fragment>
             )}
           </div>
           }

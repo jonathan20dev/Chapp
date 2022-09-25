@@ -226,6 +226,15 @@ const handleSubmit = async (e) => {
 
     let url;
     if (file) {
+      if(file.type.includes("image")){
+        Me.cantImg = parseInt(Me.cantImg) + 1
+      }
+      else if(file.type.includes("video")){
+        Me.cantVid = parseInt(Me.cantVid) + 1
+      }
+      else{
+        Me.cantAud = parseInt(Me.cantAud) + 1
+      }
       const fileRef = ref(
         storage,
         `${String(file.type).split("/")[0]}/${new Date().getTime()} - ${file.name}`
@@ -233,8 +242,13 @@ const handleSubmit = async (e) => {
       const snap = await uploadBytes(fileRef, file);
       const dlUrl = await getDownloadURL(ref(storage, snap.ref.fullPath));
       url = dlUrl;
+    }else{
+      const cantWords = text.split(' ').length;
+      Me.cantMsg = parseInt(Me.cantMsg) + 1
+      Me.words = parseInt(Me.words) + cantWords
     }
 
+    await setDoc(doc(db, "users", Me.uid), Me);
     const collectionRef = collection(db, "messagesG", id, "chat")
     const msgId = uuid()
 
