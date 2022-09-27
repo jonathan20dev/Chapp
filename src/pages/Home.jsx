@@ -92,6 +92,7 @@ function Home() {
   }, []);
 
   const selectUser = async (user) => {
+    console.log(Me)
     setChat(user);
 
   const user2 = user.uid;
