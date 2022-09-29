@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 import Img from "../profile.png";
 import { onSnapshot, doc } from "firebase/firestore";
 import { db } from "../firebase";
+import Divider from '@mui/material/Divider';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
+import Badge from '@mui/material/Badge';
 
 const User = ({ user1, user, selectUser, chat, descifrar }) => {
   const user2 = user?.uid;
@@ -23,15 +28,17 @@ const User = ({ user1, user, selectUser, chat, descifrar }) => {
       >
         <div className="user_info">
           <div className="user_detail">
-            <img src={user.avatar || Img} alt="avatar" className="avatar" />
-            <h4>{user.name}</h4>
+            <Badge color={(user.isOnline)? "success" : "secondary"} variant="dot" anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }} >
+              <Avatar alt="Remy Sharp" src={user.avatar || Img} sx={{ width: 40, height: 40 }} />
+            </Badge>
+            <h4 style={{marginRight: "20px", marginLeft: "10px"}}>{user.name}</h4>
             {data?.from !== user1 && data?.unread && (
               <small className="unread">New</small>
             )}
           </div>
-          <div
-            className={`user_status ${user.isOnline ? "online" : "offline"}`}
-          ></div>
         </div>
         {data && (
           <p className="truncate">
@@ -50,8 +57,9 @@ const User = ({ user1, user, selectUser, chat, descifrar }) => {
           className="avatar sm_screen"
         />
       </div>
+
     </>
   );
 };
 
-export {User};
+export { User };

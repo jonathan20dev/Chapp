@@ -12,7 +12,6 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
-import {User} from "../components/User";
 import {MessageForm} from "../components/MessageForm";
 import {Message} from "../components/Message";
 import {ReadMsgGroup} from "../components/ReadMsgGroup";
@@ -21,8 +20,8 @@ import { v4 as uuid } from "uuid";
 import { BurgerMenu } from "../components/svg/BurgerMenu";
 import { Button } from "@mui/material";
 import {CreateGroupModal} from "../components/CreateGroupModal"
-import {Group} from "../components/Group"
-
+import {Chats} from "../components/chats/Chats"
+import {WhithoutChat} from "../components/chats/WithoutChat"
 
 function Home() {
   const {setMsgs, textoBuscado, setTextoBuscado, mensajesBuscados, setMsgG, textoBuscadoG, setTextoBuscadoG, mensajesBuscadosG, setBlockedUsers, blockedUsers, updateBlockedUsers, Me, setMe, cifrar, descifrar} = useContext(appContext)
@@ -312,34 +311,17 @@ const handleSubmit = async (e) => {
     <div className="home_container">
       <div className="users_container">
       <CreateGroupModal users={users} user1={user1}/>
+      <Chats
+        p={{users:users ,user1: user1, selectUser:selectUser, chat:chat, descifrar:descifrar}}
+        g={{group:group, user1: user1, selectGroup: selectGroup, chat:chatG, descifrar:descifrar }}
+      />
 
-      {group.map((grupo) => (
-          <Group
-          user1={user1}
-          key={grupo.gid}
-          grupo={grupo}
-          selectGroup={selectGroup}
-          chat={chatG}
-          descifrar={descifrar}
-          />
-        ))}
-
-        {users.map((user) => (
-          <User
-            key={user.uid}
-            user={user}
-            selectUser={selectUser}
-            user1={user1}
-            chat={chat}
-            descifrar={descifrar}
-          />
-        ))}
       </div>
       
         {
           (!chat && !chatG) && (
             <div className="messages_container">
-              <h3 className="no_conv">Select a user/group to start conversation</h3>
+              <WhithoutChat/>
             </div>
             )
         }
