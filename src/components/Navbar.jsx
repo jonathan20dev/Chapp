@@ -260,13 +260,13 @@ const Navbar = () => {
                 <ListItemAvatar>
                     <LocationOnIcon fontSize="large" style={{marginBottom: "-6%", marginLeft: "1%"}}/>
                 </ListItemAvatar>
-                <ListItemText primary="Location" secondary={<Typography style={{fontSize: "105%", textTransform: "uppercase"}}>{data.name}</Typography>} />
+                <ListItemText primary="Location" secondary={<Typography style={{fontSize: "105%", textTransform: "uppercase"}}>{data.name === undefined ? location : data.name}</Typography>} />
               </ListItem>
               <ListItem>
                 <ListItemAvatar>
                 <CloudIcon fontSize="large" style={{marginBottom: "-6%", marginLeft: "1%"}}/>
                 </ListItemAvatar>
-                <ListItemText primary="Weather" secondary={<Typography style={{fontSize: "85%", textTransform: "uppercase"}}>{weather.description}</Typography>} />
+                <ListItemText primary="Weather" secondary={<Typography style={{fontSize: "85%", textTransform: "uppercase"}}>{weather.description === undefined ? "Cloudy Rain" : data.description}</Typography>} />
               </ListItem>
               <ListItem>
                 <ListItemAvatar>

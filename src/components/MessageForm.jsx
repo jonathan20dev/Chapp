@@ -43,7 +43,7 @@ const verifyCommands = () => {
     setText("La ubicacion actual es: "+location)
   }if(text.includes("/showWeather")){
     handleOpenWeatherCommant()
-    setText("El clima actual es: "+weather.main)
+    setText("El clima actual es: "+weather.main === undefined ? "Cloudy Rain" : weather.main)
   }if(text.includes("/showHour")){
     setText("La hora actual es: "+TimeLocation())
   }if(text.includes("/createReminder")){
