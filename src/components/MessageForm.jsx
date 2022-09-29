@@ -17,7 +17,6 @@ const verifyCommands = () => {
     handleSearchGIFSelected(arrayWords[1])
   }if(text.includes("/wikipedia")){
     const arrayWords = text.split(" ")
-    console.log(arrayWords[1])
     const endpoint = 'https://en.wikipedia.org/w/api.php?';
     const params = {
         origin: '*',
@@ -33,9 +32,7 @@ const verifyCommands = () => {
     params.gsrsearch = arrayWords[1]
     axios.get(endpoint, { params }).then((response) => {
       let searchObject = response.data.query.pages
-      console.log(response.data.query)
       let searchId = searchObject[Object.keys(searchObject)[0]]
-      console.log(searchId)
       window.open(`https://en.wikipedia.org/?curid=${searchId.pageid}`)
     });
 
@@ -89,7 +86,6 @@ const verifyCommands = () => {
     const searchReminder = reminder.find(user => user.idReminder === parseInt(idRemider))
     if(searchReminder !== undefined){
       const propertyNames = Object.keys(searchReminder)
-      console.log(propertyNames)
       if(propertyNames[1] === selectRemider){
         searchReminder.nameReminder = newRemider
       }if(propertyNames[2] === selectRemider){
