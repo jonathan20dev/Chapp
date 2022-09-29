@@ -38,8 +38,6 @@ function Home() {
 
   const user1 = auth.currentUser.uid;
 
-
-
   const setBU = async () => {
     /* const userRef = doc(db, "users", auth.currentUser.uid);
     const user1 = await getDoc(userRef);
@@ -93,7 +91,7 @@ function Home() {
   }, []);
 
   const selectUser = async (user) => {
-    console.log(Me)
+    setChatG("")
     setChat(user);
 
   const user2 = user.uid;
@@ -332,7 +330,7 @@ const handleSubmit = async (e) => {
         }
 
 
-          {(chat)&&(
+          {(chat )&&(
             <div className="messages_container">
                   <div className="messages_user">
                         <div style={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
@@ -353,7 +351,7 @@ const handleSubmit = async (e) => {
                                   }} />
                               </div>
                               <Button variant="outlined" size='small' color="error" onClick={handleBloqueo}>
-                                { blockedUsers.some((id) => id ===chat.uid) ? 'Desbloquear' : 'Bloquear' }
+                                { blockedUsers.some((id) => id ===chat.uid) ? 'Unlock' : 'Block' }
                               </Button>
                             </div>
                           )
@@ -378,7 +376,7 @@ const handleSubmit = async (e) => {
                   </div>
               )}
 
-              {(chatG) && (
+              {(chatG && !chat) && (
                 <div className="messages_container">
                 {/* ESTO ES PARA EL GRUPO */}
                   <div className="messages_user">

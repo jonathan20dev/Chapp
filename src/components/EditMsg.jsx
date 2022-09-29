@@ -5,8 +5,8 @@ import { useState } from 'react'
 import { appContext } from '../context/AppContext'
 
 const EditMsg = ({msg}) => {
-  const {onClickButton, updateMsg, setSelected, setSelectedMsg} = useContext(appContext)
-  const [newMsg, setNewMsg] = useState(msg.text)
+  const {onClickButton, updateMsg, setSelected, setSelectedMsg, cifrar, descifrar} = useContext(appContext)
+  const [newMsg, setNewMsg] = useState(descifrar(msg.text, msg.id))
   const [newDestrucTime, setNewDestrucTime] = useState(msg.Autodestruccion ? msg.Autodestruccion : '')
   const [editOption, setEditOption] = useState('')
 
@@ -26,7 +26,7 @@ const EditMsg = ({msg}) => {
   const editarTexto = () => {
     updateMsg(msg.path, msg.id, {
       ...msg,
-      ['text']: newMsg
+      ['text']: cifrar(newMsg, msg.id)
     }, msg.collectionId) 
     onClickButton('modalEditMsg')
     setSelectedMsg('')

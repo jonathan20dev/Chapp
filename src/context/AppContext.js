@@ -100,7 +100,7 @@ const AppContextProvider = ({ children }) => {
     mensajesBuscados = [...msgs]
   } else {
     mensajesBuscados = msgs.filter(m => {
-      const msgtext = m.text.toLowerCase();
+      const msgtext = descifrar(m.text, m.id).toLowerCase();
       let nombreArchivo = ''
       if (m.media) {
         nombreArchivo = m.media.nombre.toLowerCase();
@@ -118,7 +118,7 @@ let mensajesBuscadosG = [];
     mensajesBuscadosG = [...msgG]
   } else {
     mensajesBuscadosG = msgG.filter(m => {
-      const msgtextG = m.text.toLowerCase();
+      const msgtextG = descifrar(m.text, m.id).toLowerCase();
       let nombreArchivo = ''
       if (m.media) {
         nombreArchivo = m.media.nombre.toLowerCase();
