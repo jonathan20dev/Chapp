@@ -18,7 +18,7 @@ const Profile = () => {
   const [img, setImg] = useState("");
   const [user, setUser] = useState();
   const navigate = useNavigate("");
-  Me.ArrayFriends.sort((a,b)=> b.cant - a.cant)
+  Me.ArrayFriends !== undefined && Me.ArrayFriends.sort((a,b)=> b.cant - a.cant)
 
   useEffect(() => {
     getDoc(doc(db, "users", auth.currentUser.uid)).then((docSnap) => {

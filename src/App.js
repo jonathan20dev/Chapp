@@ -9,7 +9,6 @@ import {Login} from "./pages/Login"
 import {Profile} from "./pages/Profile"
 import {AppContextProvider} from './context/AppContext'
 
-
 function App() {
   return (
     <AuthProvider>

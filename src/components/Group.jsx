@@ -3,7 +3,7 @@ import Img from "../grupo.png";
 import { onSnapshot, doc } from "firebase/firestore";
 import { db } from "../firebase";
 
-const Group = ({user1, grupo, selectGroup,chat }) => {
+const Group = ({user1, grupo, selectGroup,chat, descifrar }) => {
   const user2 = grupo.gid;
   const [data, setData] = useState("");
 
@@ -33,7 +33,7 @@ const Group = ({user1, grupo, selectGroup,chat }) => {
             {data && (
               <p className="truncate">
                 <strong>{data.from === user1 ? "Me:" : null}</strong>
-                {data.text}
+                {descifrar(data.text, data.id)}
               </p>
             )}
       </div>

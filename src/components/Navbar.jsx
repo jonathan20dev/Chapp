@@ -44,7 +44,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
+import Swal from 'sweetalert2'
 import GifBoxIcon from '@mui/icons-material/GifBox';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
@@ -55,15 +55,15 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 const Navbar = () => {
 
-  const {openDialog, selectGIF, setSelectGIF, TimeLocation, setOpenDialog,handleOpenWeather, openAlert, setOpenAlert, reminder, setReminder, weather, setWeather, location, setLocation, data, setData} = useContext(appContext)
+  const {openDialog, selectGIF, setFile,GIF, setGIF, setSelectedGIF, selectedGIF, setSelectGIF, TimeLocation, setOpenDialog,handleWeather, openAlert, setOpenAlert, reminder, setReminder, weather, setWeather, location, setLocation, data, setData} = useContext(appContext)
   const [inputMeme, setInputMeme] = useState("");
-  const [GIF, setGIF] = useState([]);
 
   //Create Reminder
   const [dateReminder, setDateReminder] = useState(dayjs());
   const [messageReminder, setMessageReminder] = useState("");
   const [usersReminder, setUsersReminder] = useState("");
   const [titleReminder, setTittleReminder] = useState("");
+  const [email, setEmail] = useState("")
   const [countReminder, setCountReminder] = useState(1);
 
   //Modify Reminder
@@ -75,7 +75,7 @@ const Navbar = () => {
   const [modifyReminder, setModifyReminder] = useState({});
 
   const handleSaveReminder = () => {
-    setReminder([...reminder, {idReminder: countReminder, nameReminder: titleReminder, to: usersReminder[0], date: {"hour": dateReminder.$H+":"+dateReminder.$m+":"+dateReminder.$s, "date": dateReminder.$M+1+"/"+dateReminder.$D+"/"+dateReminder.$y}, message: messageReminder}])
+    setReminder([...reminder, {idReminder: countReminder, flag: false, nameReminder: titleReminder, to: usersReminder[0], date: {"hour": dateReminder.$H+":"+dateReminder.$m+":"+dateReminder.$s, "date": dateReminder.$M+1+"/"+dateReminder.$D+"/"+dateReminder.$y}, message: messageReminder}])
     setCountReminder(countReminder+1)
     setDateReminder(dayjs())
     setMessageReminder("")
@@ -84,8 +84,49 @@ const Navbar = () => {
     handleOpenAlert()
   }
 
+  useEffect(() => {
+    if(reminder.length !== 0){
+      const reminderSelected = reminder[0]
+      if(!reminderSelected.flag){
+        const reminderDate = reminder[0].date
+        var date1 = new Date();    
+        var date2 = new Date(`${reminderDate.date} ${reminderDate.hour}`);
+        console.log(date2)
+        //Customise date2 for your required future time
+    
+        var diff = (date2 - date1)/1000;
+        var diff = Math.abs(Math.floor(diff));
+        console.log(diff)
+    
+        var days = Math.floor(diff/(24*60*60));
+        var leftSec = diff - days * 24*60*60;
+    
+        var hrs = Math.floor(leftSec/(60*60));
+        var leftSec = leftSec - hrs * 60*60;
+    
+        var min = Math.floor(leftSec/(60));
+        var leftSec = leftSec - min * 60;
+        setTimeout(() => {
+          Swal.fire(
+            `Recordatorio (${reminderSelected.nameReminder})`,
+            `Tienes un recordatorio para ${reminderSelected.to}` ,
+            `Tu mensaje: ${reminderSelected.message}`,
+          )
+          reminderSelected.flag = true
+        }, diff*1000);
+      }
+    }
+  }, [reminder])
+  
+  
+
   const handleCloseWeather = () =>{
     (openDialog.showWeather) ? setOpenDialog({...openDialog, showWeather: false}) :  setOpenDialog({...openDialog, showWeather: true})
+  }
+
+  const handleOpenWeather = () =>{
+    (openDialog.showWeather) ? setOpenDialog({...openDialog, showWeather: false}) :  setOpenDialog({...openDialog, showWeather: true})
+    handleWeather()
   }
 
   const handleOpenReminder = () =>{
@@ -159,8 +200,12 @@ const Navbar = () => {
   };
 
   const handleSubmitGIF = (url)=> {
-    setSelectGIF(url)
+    const file = new File([url], "gif", { 
+      'type': 'gif' ,
+    });
+    setSelectGIF(file)
   }
+  
 
   return (
     <>
@@ -257,6 +302,17 @@ const Navbar = () => {
             setTittleReminder(e.target.value);
           }}
         />   
+        <TextField
+        type='email'
+      style={{marginTop: "2%", width: "250px"}}
+          id="outlined-multiline-static"
+          label="Email"
+          rows={4}
+          placeholder="buenas@gmail.com"
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+        />  
       <DateTimePicker
         renderInput={(props) => <TextField style={{width: "250px", marginTop: "6%"}} {...props} />}
         label="Select date and time"

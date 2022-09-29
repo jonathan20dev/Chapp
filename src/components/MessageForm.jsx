@@ -3,16 +3,48 @@ import { Attachment } from "./svg/Attachment";
 import { AudioRecord } from "./AudioRecord";
 import { Send } from "./svg/Send";
 import {appContext} from "../context/AppContext.js";
+import axios from "axios";
 
 const MessageForm = ({ handleSubmit, text, setText, setFile, file }) => {
 
-const {openDialog, setOpenDialog,TimeLocation, reminder,handleOpenWeather, setReminder} = useContext(appContext)
+const {openDialog,selectGIF,findMyLocation,handleOpenWeatherCommant, weather,setSelectedGIF,handleSearchGIFSelected, setOpenDialog,TimeLocation, reminder,handleOpenWeather, setReminder} = useContext(appContext)
 
 const verifyCommands = () => {
   const haveNumber = stringContainsNumber(text)
   const wordCount = WordCount(text)
-  if(text.includes("/showWeather")){
-    handleOpenWeather()
+  if(text.includes("/searchGIF")){
+    const arrayWords = text.split(" ")
+    handleSearchGIFSelected(arrayWords[1])
+  }if(text.includes("/wikipedia")){
+    const arrayWords = text.split(" ")
+    console.log(arrayWords[1])
+    const endpoint = 'https://en.wikipedia.org/w/api.php?';
+    const params = {
+        origin: '*',
+        format: 'json',
+        action: 'query',
+        prop: 'extracts',
+        exchars: 250,
+        exintro: true,
+        explaintext: true,
+        generator: 'search',
+        gsrlimit: 20,
+    };
+    params.gsrsearch = arrayWords[1]
+    axios.get(endpoint, { params }).then((response) => {
+      let searchObject = response.data.query.pages
+      console.log(response.data.query)
+      let searchId = searchObject[Object.keys(searchObject)[0]]
+      console.log(searchId)
+      window.open(`https://en.wikipedia.org/?curid=${searchId.pageid}`)
+    });
+
+  }if(text.includes("/myLocation")){
+    setText("La ubicacion actual es: "+findMyLocation())
+  }if(text.includes("/showWeather")){
+    handleOpenWeatherCommant()
+    console.log(weather)
+    setText("El clima actual es: "+weather.main)
   }if(text.includes("/showHour")){
     setText("La hora actual es: "+TimeLocation())
   }if(text.includes("/createReminder")){

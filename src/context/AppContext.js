@@ -1,6 +1,7 @@
 import React, { createContext, useState } from "react";
 import { doc, deleteDoc, setDoc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import CryptoJS from "crypto-js";
 import axios from "axios";
 
 const appContext = createContext();
@@ -40,14 +41,24 @@ const AppContextProvider = ({ children }) => {
   const [weather, setWeather] = useState([]) 
   const [location, setLocation] = useState("")
   const [selectGIF, setSelectGIF] = useState("")
+  const [selectedGIF, setSelectedGIF] = useState("")
+  const [GIF, setGIF] = useState([]);
 
-  const handleOpenWeather = () =>{
+  const handleWeather = () =>{
     findMyLocation()
+    axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${location},lat&APPID=d905ced1896df43dff776fec1fc81073`).then((response) => {
+        setData(response.data);
+        setWeather(response.data.weather[0])
+      });
+  }
+
+
+
+  const handleOpenWeatherCommant = () =>{
     axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${location},lat&APPID=3bd740d64f5ad6b4786618ba189dbfb8`).then((response) => {
         setData(response.data);
         setWeather(response.data.weather[0])
       });
-    (openDialog.showWeather) ? setOpenDialog({...openDialog, showWeather: false}) :  setOpenDialog({...openDialog, showWeather: true})
   }
 
   const findMyLocation = () => {
@@ -74,6 +85,9 @@ const AppContextProvider = ({ children }) => {
     }
     navigator.geolocation.getCurrentPosition(success, error)
   }
+
+  findMyLocation()
+  console.log(location)
   
     function addZero(i) {
       if (i < 10) {i = "0" + i}
@@ -95,6 +109,22 @@ const AppContextProvider = ({ children }) => {
       [modal]: !openModal[modal],
     });
   };
+
+  //Cifrar mensajes
+  const cifrar = (mensaje, id) => {
+    const textoCifrado = CryptoJS.AES.encrypt(mensaje, id).toString()
+    return textoCifrado
+  }
+//Descrifrar mensajes
+  const descifrar = (mensaje, id) => {
+    const bytes = CryptoJS.AES.decrypt(mensaje, id)
+    const textoDescifrado = bytes.toString(CryptoJS.enc.Utf8)
+    return textoDescifrado
+  }
+
+
+  
+
 
   //Actualizar usuarios bloqueados
   const updateBlockedUsers = async (currentUserId, lista) => {
@@ -173,6 +203,13 @@ let mensajesBuscadosG = [];
     })
   }
 
+  const handleSearchGIFSelected = (selected) => {
+    axios.get(`https://api.giphy.com/v1/gifs/search?api_key=FfC0GoBNWauajLfhAlvJ7Yc2ebHobpyu&q=${selected}&limit=25&offset=0&rating=g&lang=en`).then((response) => {
+      setGIF(response.data.data);
+      (openDialog.showGIF) ? setOpenDialog({...openDialog, showGIF: false}) :  setOpenDialog({...openDialog, showGIF: true})
+    });
+  }
+
 
 
   return (
@@ -180,21 +217,26 @@ let mensajesBuscadosG = [];
       value={{
         openModal,
         onClickButton,
+        handleSearchGIFSelected,
+        GIF, setGIF,
         openDialog,
         openAlert,
         setOpenAlert,
+        handleOpenWeatherCommant,
+        handleWeather,
         setOpenDialog,
         updateMsg,
         deleteMsg,
         openAlert, 
-        handleOpenWeather,
         setOpenAlert,
         selectedMsg,
         weather, 
+        selectedGIF, 
+        setSelectedGIF,
         selectGIF, 
         setSelectGIF,
         setWeather,
-        data, 
+        data,
         setData,
         setSelectedMsg,
         reminder, 
@@ -217,6 +259,9 @@ let mensajesBuscadosG = [];
         setMsgG,
         Me, 
         setMe,
+        cifrar,
+        findMyLocation,
+        descifrar
       }}
     >
       {children}
