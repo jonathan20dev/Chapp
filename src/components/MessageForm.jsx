@@ -7,7 +7,7 @@ import axios from "axios";
 
 const MessageForm = ({ handleSubmit, text, setText, setFile, file }) => {
 
-const {openDialog,selectGIF,findMyLocation,handleOpenWeatherCommant, weather,setSelectedGIF,handleSearchGIFSelected, setOpenDialog,TimeLocation, reminder,handleOpenWeather, setReminder} = useContext(appContext)
+const {openDialog,location,findMyLocation,handleOpenWeatherCommant, weather,setSelectedGIF,handleSearchGIFSelected, setOpenDialog,TimeLocation, reminder,handleOpenWeather, setReminder} = useContext(appContext)
 
 const verifyCommands = () => {
   const haveNumber = stringContainsNumber(text)
@@ -40,24 +40,23 @@ const verifyCommands = () => {
     });
 
   }if(text.includes("/myLocation")){
-    setText("La ubicacion actual es: "+findMyLocation())
+    setText("La ubicacion actual es: "+location)
   }if(text.includes("/showWeather")){
     handleOpenWeatherCommant()
-    console.log(weather)
     setText("El clima actual es: "+weather.main)
   }if(text.includes("/showHour")){
     setText("La hora actual es: "+TimeLocation())
   }if(text.includes("/createReminder")){
     (openDialog.showReminder) ? setOpenDialog({...openDialog, showReminder: false}) :  setOpenDialog({...openDialog, showReminder: true})
   }if(text.includes("/deleteReminder")){
-    setText(reminder.map((item) => item.idReminder+"-"+item.nameReminder+"\n"))
+    setText(reminder.map((item) =>  `${item.idReminder} - ${item.nameReminder}`))
     setTimeout(() => {
       setText("To delete use: /delete number")
-    }, 1000);
+    }, 4000);
   }if(text.includes("/showReminder")){
     (openDialog.showReminderTable) ? setOpenDialog({...openDialog, showReminderTable: false}) :  setOpenDialog({...openDialog, showReminderTable: true})
   }if(text.includes("/modifyReminder")){
-    setText(reminder.map((item) => item.idReminder+"-"+item.nameReminder+"\n"))
+    reminder.map((item) => setText(item.idReminder+"-"+item.nameReminder+"\n"))
     setTimeout(() => {
       setText("To update use: /update number")
     }, 1000);
@@ -74,10 +73,10 @@ const verifyCommands = () => {
     const idUpdate = text.slice(-1)
     const searchReminder = reminder.find(user => user.idReminder === parseInt(idUpdate))
     if(searchReminder !== undefined){
-        setText("name: "+searchReminder.nameReminder+" to: "+searchReminder.to+" date: "+searchReminder.date.date+" hour: "+searchReminder.date.hour+" message: "+searchReminder.message)
+        setText("nameReminder: "+searchReminder.nameReminder+" to: "+searchReminder.to+" date: "+searchReminder.date.date+" hour: "+searchReminder.date.hour+" message: "+searchReminder.message)
         setTimeout(() => {
           setText("To update use: /update number SelectAttribute NewAttribute")
-        }, 1000);
+        }, 4000);
       }else{
       setText("No exist")
     } 

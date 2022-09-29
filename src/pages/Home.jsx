@@ -140,6 +140,7 @@ function Home() {
 ///////////////////////////////////
 
 const handleSubmit = async (e) => {
+  const typeTect = typeof text
   try{
     e.preventDefault();
   } catch {}
@@ -169,9 +170,12 @@ const handleSubmit = async (e) => {
     const dlUrl = await getDownloadURL(ref(storage, snap.ref.fullPath));
     url = dlUrl;
   }else{
-    const cantWords = text.split(' ').length;
-    Me.cantMsg = parseInt(Me.cantMsg) + 1
-    Me.words = parseInt(Me.words) + cantWords
+    if(typeTect === "string"){
+      console.log("Soy string")
+      const cantWords = text.split(' ').length;
+      Me.cantMsg = parseInt(Me.cantMsg) + 1
+      Me.words = parseInt(Me.words) + cantWords
+    } 
   }
 
   const bd = Me.ArrayFriends

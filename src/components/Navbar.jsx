@@ -75,7 +75,7 @@ const Navbar = () => {
   const [modifyReminder, setModifyReminder] = useState({});
 
   const handleSaveReminder = () => {
-    setReminder([...reminder, {idReminder: countReminder, flag: false, nameReminder: titleReminder, to: usersReminder[0], date: {"hour": dateReminder.$H+":"+dateReminder.$m+":"+dateReminder.$s, "date": dateReminder.$M+1+"/"+dateReminder.$D+"/"+dateReminder.$y}, message: messageReminder}])
+    setReminder([...reminder, {idReminder: countReminder, nameReminder: titleReminder, to: usersReminder[0], date: {"hour": dateReminder.$H+":"+dateReminder.$m+":"+dateReminder.$s, "date": dateReminder.$M+1+"/"+dateReminder.$D+"/"+dateReminder.$y}, message: messageReminder}])
     setCountReminder(countReminder+1)
     setDateReminder(dayjs())
     setMessageReminder("")
@@ -117,6 +117,10 @@ const Navbar = () => {
       }
     }
   }, [reminder])
+  
+  useEffect(() => {
+
+  }, [email])
   
   
 
@@ -304,11 +308,11 @@ const Navbar = () => {
         />   
         <TextField
         type='email'
-      style={{marginTop: "2%", width: "250px"}}
-          id="outlined-multiline-static"
+          style={{marginTop: "2%", width: "250px"}}
+          id="outlined-number"
           label="Email"
-          rows={4}
-          placeholder="buenas@gmail.com"
+          type="email"
+          fullWidth
           onChange={(e) => {
             setEmail(e.target.value);
           }}

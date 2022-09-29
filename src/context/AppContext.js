@@ -87,7 +87,6 @@ const AppContextProvider = ({ children }) => {
   }
 
   findMyLocation()
-  console.log(location)
   
     function addZero(i) {
       if (i < 10) {i = "0" + i}
@@ -260,6 +259,7 @@ let mensajesBuscadosG = [];
         Me, 
         setMe,
         cifrar,
+        location,
         findMyLocation,
         descifrar
       }}
