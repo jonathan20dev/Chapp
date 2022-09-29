@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 const styles = {
   ModalBackground : {
-    background: 'rgba(32,35,41,.8)',
+    background: 'rgba(32,35,41,.1)',
     position: 'fixed',
     top: '-10px',
     left: '-10px',

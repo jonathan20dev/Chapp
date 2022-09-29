@@ -56,10 +56,10 @@ const verifyCommands = () => {
   }if(text.includes("/showReminder")){
     (openDialog.showReminderTable) ? setOpenDialog({...openDialog, showReminderTable: false}) :  setOpenDialog({...openDialog, showReminderTable: true})
   }if(text.includes("/modifyReminder")){
-    reminder.map((item) => setText(item.idReminder+"-"+item.nameReminder+"\n"))
+    setText(reminder.map((item) =>  `${item.idReminder} - ${item.nameReminder}`))
     setTimeout(() => {
       setText("To update use: /update number")
-    }, 1000);
+    }, 4000);
   }if (text.includes("/delete") && haveNumber){
     const idDelete = text.slice(-1)
     const searchReminder = reminder.find(user => user.idReminder === parseInt(idDelete))
@@ -143,8 +143,8 @@ function WordCount(str) {
           />
         </div>
         <button
-          onClick={verifyCommands}
-          style={{ outline: "none", backgroundColor: "#242526", border: 0 }}
+        onClick={verifyCommands}
+          style={{ outline: "none", backgroundColor: "whiteSmoke", border: 0 }}
         >
           <Send colorActive={!file ? "#4d94ff" : "green"} />
         </button>

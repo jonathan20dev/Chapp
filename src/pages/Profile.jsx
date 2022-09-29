@@ -101,7 +101,7 @@ const Profile = () => {
       </div>
       <br/>
     </section>
-    <section style={{marginTop: "10px"}}>
+    <section style={{marginTop: "10px", marginBottom: '15px'}}>
       <div className="profile_container">
         <div className="img_container">
         </div>
@@ -126,8 +126,6 @@ const Profile = () => {
           <p>{"Cantidad de videos enviados: "+Me.cantVid}</p>
           <p>{"Cantidad de audios enviados: "+Me.cantAud}</p>
           <p>{"Cantidad de palabras enviados: "+Me.words}</p>
-
-          <hr />
         </div>
       </div>
       <br/>
