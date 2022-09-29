@@ -31,7 +31,7 @@ const MessageForm = ({ handleSubmit, text, setText, setFile, file }) => {
           />
         </div>
         <button
-          style={{ outline: "none", backgroundColor: "#242526", border: 0 }}
+          style={{ outline: "none", backgroundColor: "whiteSmoke", border: 0 }}
         >
           <Send colorActive={!file ? "#4d94ff" : "green"} />
         </button>

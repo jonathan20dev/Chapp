@@ -53,8 +53,8 @@ function CreateGroupModal({users, user1}) {
   
 
   return (
-    <div>
-      <Button style={{width: '100%'}} variant="outlined" color="success" onClick={()=>onClickButton("modalCreateGroup")}>
+    <div style={{width: '100%', marginTop: '10px', marginBottom: '10px', display: 'flex', justifyContent: 'center'}}>
+      <Button style={{width: '90%'}} variant="outlined" color="success" onClick={()=>onClickButton("modalCreateGroup")}>
         <strong>Create Group</strong> 
       </Button>
       <Dialog open={openModal.modalCreateGroup} onClose={()=>onClickButton("modalCreateGroup")}>
@@ -90,7 +90,7 @@ function CreateGroupModal({users, user1}) {
               {option.name}
             </li>
           )}
-          style={{ width: 500 }}
+          style={{ width: '100%' }}
           onChange={(event,values)=>(handleChange(event,values))}
           renderInput={(params) =>{
             return(

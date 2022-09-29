@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material'
+import { Button, TextField } from '@mui/material'
 import moment from 'moment'
 import React, { useContext } from 'react'
 import { useState } from 'react'
@@ -41,19 +41,19 @@ const EditMsg = ({msg}) => {
       <h4 style={{color: 'black', marginTop: 0}}>Editar mensaje</h4> 
 
       {editOption === '' && (<div style={{display: 'flex', justifyContent: 'space-between'}}>
-        <button onClick={() => {setEditOption('texto')}}>
+        <Button onClick={() => {setEditOption('texto')}}>
           texto
-        </button>
-        <button onClick={() => {
+        </Button>
+        <Button onClick={() => {
           setEditOption('autodestruccion')
           !newDestrucTime && setNewDestrucTime(moment().format("YYYY-MM-DDTHH:mm").toString())
           }}>
           Autodestruccion
-        </button>
+        </Button>
       </div>)}
 
       {editOption === 'texto' && (<div>
-        <textarea style={{width: '310px', resize: "none"}} value={newMsg} onChange={handleChange}/>
+        <textarea style={{width: '310px', resize: "none", height: '100px'}} value={newMsg} onChange={handleChange}/>
       </div>)}
 
       {editOption === 'autodestruccion' && (<div>
@@ -62,11 +62,11 @@ const EditMsg = ({msg}) => {
 
       {editOption !== '' && (<div>
         <div style={{display: 'flex', justifyContent: 'space-between', padding: '10px 0px 10px 0px'}}>
-          <button onClick={() => {
+          <Button onClick={() => {
             onClickButton('modalEditMsg')
             setSelected(false)
-            }}>Cancelar</button>
-          <button onClick={editOption === 'texto' ? editarTexto : editarAutodestruccion}>Editar</button>
+            }}>Cancelar</Button>
+          <Button onClick={editOption === 'texto' ? editarTexto : editarAutodestruccion}>Editar</Button>
         </div>
       </div>)}
     </div>
