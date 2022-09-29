@@ -33,7 +33,7 @@ const Message = ({ msg, user1, descifrar }) => {
       className={`message_wrapper ${msg.from === user1 ? "own" : ""}`}
       ref={scrollRef}
     >
-      <span style={{padding: '0px 5px 0px 8px', display: `${msg.id === selectedMsg.id && selected ? "" : "none"}`}} onClick={handleDelete}>
+      <span style={{padding: '0px 5px 0px 8px', display: `${msg.from === user1 && msg.id === selectedMsg.id && selected ? "" : "none"}`}} onClick={handleDelete}>
         <Delete/>
       </span>
       {
@@ -42,7 +42,7 @@ const Message = ({ msg, user1, descifrar }) => {
           <DeleteMsg msg={selectedMsg}/>
         </Modal>)
       }
-      <span style={{padding: '0px 10px 0px 5px', display: `${msg.id === selectedMsg.id && selected ? "" : "none"}`}} onClick={handleEdit}>
+      <span style={{padding: '0px 10px 0px 5px', display: `${msg.from === user1 && msg.id === selectedMsg.id && selected ? "" : "none"}`}} onClick={handleEdit}>
         <Edit/>
       </span>
       {
