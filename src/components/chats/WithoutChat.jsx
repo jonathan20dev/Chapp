@@ -5,13 +5,13 @@ import Typography from '@mui/material/Typography';
 
 function WhithoutChat() {
     return (
-        <div style={{backgroundColor:"#333"}}>
+        <div style={{backgroundColor:"#dcdcf7"}}>
       <Container maxWidth="sm">
-        <Box sx={{ bgcolor: '#333', height: '20vh' }} />
-        <Typography variant="h5" component="h2" color="#f8f9fb" align="center" style={{lineHeight: "20px", fontSize: "30px", fontweight: "200"}}>
+        <Box sx={{ bgcolor: '#dcdcf7', height: '20vh' }} />
+        <Typography variant="h5" component="h2" color="gray" align="center" style={{lineHeight: "1", fontSize: "30px", fontweight: "200"}}>
             Selecciona un chat para hablar
             </Typography>
-        <Box sx={{ bgcolor: '#333', height: '100vh' }} />
+        <Box sx={{ bgcolor: '#dcdcf7', height: '100vh' }} />
       </Container>
     </div>
     );
