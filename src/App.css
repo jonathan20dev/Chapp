@@ -238,6 +238,10 @@ section .form {
   width: 100%;
   border-radius: 5px;
 }
+.message_wrapper video {
+  width: 100%;
+  border-radius: 5px;
+}
 .message_wrapper p {
   padding: 10px;
   display: inline-block;
@@ -295,6 +299,10 @@ section .form {
   }
   .message_wrapper p {
     max-width: 75%;
+  }
+  .message_wrapper audio {
+    max-width: 250px;
+    border-radius: 5px;
   }
 }
 
