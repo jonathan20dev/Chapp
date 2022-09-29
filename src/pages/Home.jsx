@@ -24,8 +24,7 @@ import {Chats} from "../components/chats/Chats"
 import {WhithoutChat} from "../components/chats/WithoutChat"
 
 function Home() {
-  const {setMsgs, textoBuscado, selectGIF, setTextoBuscado, mensajesBuscados, setMsgG, textoBuscadoG, setTextoBuscadoG, mensajesBuscadosG, setBlockedUsers, blockedUsers, updateBlockedUsers, Me, setMe, cifrar, descifrar} = useContext(appContext)
-  const [users, setUsers] = useState([]);
+  const {setMsgs, textoBuscado, selectGIF, setTextoBuscado, mensajesBuscados, setMsgG, textoBuscadoG, setTextoBuscadoG, mensajesBuscadosG, setBlockedUsers, blockedUsers, updateBlockedUsers, Me, setMe, cifrar, descifrar, users, setUsers} = useContext(appContext)
   const [chat, setChat] = useState("");
   const [chatG, setChatG] = useState("");
   const [group, setGroup] = useState([]);

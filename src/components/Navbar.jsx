@@ -55,7 +55,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 const Navbar = () => {
 
-  const {openDialog, selectGIF, setFile,GIF, setGIF, setSelectedGIF, selectedGIF, setSelectGIF, TimeLocation, setOpenDialog,handleWeather, openAlert, setOpenAlert, reminder, setReminder, weather, setWeather, location, setLocation, data, setData} = useContext(appContext)
+  const {openDialog, selectGIF, setFile,GIF, setGIF, setSelectedGIF, selectedGIF, setSelectGIF, TimeLocation, setOpenDialog,handleWeather, openAlert, setOpenAlert, reminder, setReminder, weather, setWeather, location, setLocation, data, setData, users, setUsers} = useContext(appContext)
   const [inputMeme, setInputMeme] = useState("");
 
   //Create Reminder
@@ -307,11 +307,11 @@ const Navbar = () => {
           }}
         />   
         <TextField
-        type='email'
+          name='email'
+          type='email'
           style={{marginTop: "2%", width: "250px"}}
           id="outlined-number"
           label="Email"
-          type="email"
           fullWidth
           onChange={(e) => {
             setEmail(e.target.value);
@@ -563,15 +563,7 @@ const Navbar = () => {
 
     </>
   )
-}
+  }
 
 export {Navbar}
 
-const users = [
-  { name: 'Johan Zamora'},
-  { name: 'Jonathan Mumo'},
-  { name: 'Kimberly'},
-  { name: 'Johan2'},
-  { name: 'Jonathan2'},
-  { name: 'Kimberly2'},
-];

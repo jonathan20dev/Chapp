@@ -37,6 +37,8 @@ const AppContextProvider = ({ children }) => {
     modalCreateGroup: false,
   });
 
+
+  const [users, setUsers] = useState([]);
   const [data, setData] = useState({})
   const [weather, setWeather] = useState([]) 
   const [location, setLocation] = useState("")
@@ -261,7 +263,9 @@ let mensajesBuscadosG = [];
         cifrar,
         location,
         findMyLocation,
-        descifrar
+        descifrar,
+        users,
+        setUsers
       }}
     >
       {children}
