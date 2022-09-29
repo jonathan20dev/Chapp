@@ -22,6 +22,7 @@ import { BurgerMenu } from "../components/svg/BurgerMenu";
 import { Button } from "@mui/material";
 import {CreateGroupModal} from "../components/CreateGroupModal"
 import {Group} from "../components/Group"
+import {Chats} from "../components/chats/Chats"
 
 
 function Home() {
@@ -313,29 +314,13 @@ const handleSubmit = async (e) => {
   return (
     <div className="home_container">
       <div className="users_container">
+
       <CreateGroupModal users={users} user1={user1}/>
+      <Chats
+      p={{users:users ,user1: user1, selectUser:selectUser, chat:chat, descifrar:descifrar}}
+      g={{group:group, user1: user1, selectGroup: selectGroup, chat:chatG, descifrar:descifrar }}
+      />
 
-      {group.map((grupo) => (
-          <Group
-          user1={user1}
-          key={grupo.gid}
-          grupo={grupo}
-          selectGroup={selectGroup}
-          chat={chatG}
-          descifrar={descifrar}
-          />
-        ))}
-
-        {users.map((user) => (
-          <User
-            key={user.uid}
-            user={user}
-            selectUser={selectUser}
-            user1={user1}
-            chat={chat}
-            descifrar={descifrar}
-          />
-        ))}
       </div>
       
         {
