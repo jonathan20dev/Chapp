@@ -32,7 +32,9 @@ const verifyCommands = () => {
     params.gsrsearch = arrayWords[1]
     axios.get(endpoint, { params }).then((response) => {
       let searchObject = response.data.query.pages
+      console.log(response.data.query)
       let searchId = searchObject[Object.keys(searchObject)[0]]
+      console.log(searchId)
       window.open(`https://en.wikipedia.org/?curid=${searchId.pageid}`)
     });
 
